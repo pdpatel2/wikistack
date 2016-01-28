@@ -6,7 +6,9 @@ var app = express();
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var swig = require('swig');
-var routes = require('./routes/index');
+//filter applied to swig library
+require('./filters')(swig);
+var routes = require('./routes/wiki');
 
 // Incorporates swig into its rendering
 // point res.render to the proper directory
@@ -28,10 +30,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Routes requests
-app.use('/', routes)
+app.use('/wiki', routes)
 
 // Serves up static files from some kind of public folder
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 // // Listen to server
 app.listen(3000, function(){
